@@ -32,6 +32,7 @@ launchctl bootstrap system "$PLIST_DST"
 launchctl enable "system/${LABEL}"
 
 echo
-echo "Done. The watcher is running and will start on every boot."
+echo "Done. Installed $("$SCRIPT_DST" --version)."
+echo "The watcher is running and will start on every boot."
 echo "Test it: close the lid, wait a few seconds, reopen — the Touch Bar should refresh."
 echo "Logs:    log show --predicate 'eventMessage CONTAINS \"touchbar-reset\"' --last 1h"

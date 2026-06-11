@@ -17,6 +17,15 @@
 #
 # Runs as a root LaunchDaemon. See install.sh.
 
+VERSION="1.0.0"
+
+case "$1" in
+  --version|-v)
+    echo "touchbar-reset-watcher $VERSION"
+    exit 0
+    ;;
+esac
+
 INTERVAL=5    # seconds between checks (lid stays closed minutes-to-hours, so this is plenty)
 WAKE_GAP=12   # a poll cycle longer than this means the Mac was asleep
 LOG=/var/log/touchbar-reset.log   # plain timestamped activity log
@@ -41,7 +50,7 @@ reset_touchbar() {
   log_msg "RESET TouchBarServer + ControlStrip (trigger: $1)"
 }
 
-log_msg "watcher started (INTERVAL=${INTERVAL}s WAKE_GAP=${WAKE_GAP}s)"
+log_msg "watcher v${VERSION} started (INTERVAL=${INTERVAL}s WAKE_GAP=${WAKE_GAP}s)"
 last="$(get_clamshell)"
 log_msg "initial clamshell=[$last]"
 

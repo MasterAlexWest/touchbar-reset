@@ -47,6 +47,16 @@ The watcher logs lid changes and resets to `/var/log/touchbar-reset.log`
 cat /var/log/touchbar-reset.log
 ```
 
+## Checking your version
+
+```bash
+touchbar-reset-watcher.sh --version          # the version in this repo
+/usr/local/bin/touchbar-reset-watcher.sh --version   # the version actually installed
+```
+
+The installed version is also recorded in the startup line of
+`/var/log/touchbar-reset.log`.
+
 ## Configuration
 
 Edit the values at the top of `touchbar-reset-watcher.sh`, then re-run
