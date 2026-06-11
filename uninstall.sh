@@ -15,5 +15,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 launchctl bootout system "$PLIST_DST" 2>/dev/null || true
-rm -f "$PLIST_DST" "$SCRIPT_DST" /var/log/touchbar-reset.log /var/log/touchbar-reset.err.log
-echo "Removed Touch Bar reset daemon, watcher script, and logs."
+rm -f "$PLIST_DST" "$SCRIPT_DST" \
+      /var/log/touchbar-reset.log /var/log/touchbar-reset.err.log \
+      /usr/local/var/touchbar-reset.paused
+echo "Removed Touch Bar reset daemon, watcher script, logs, and pause marker."

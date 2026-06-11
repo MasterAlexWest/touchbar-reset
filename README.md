@@ -47,6 +47,34 @@ The watcher logs lid changes and resets to `/var/log/touchbar-reset.log`
 cat /var/log/touchbar-reset.log
 ```
 
+## Flags
+
+With no argument the script runs the watcher loop (how `launchd` starts it).
+It also accepts:
+
+| Flag | Action | Root? |
+|------|--------|-------|
+| `--once` | Reset the Touch Bar now and exit (manual "fix it now") | sudo |
+| `--pause` | Stop resetting until `--resume`; the daemon stays loaded but idle (persists across reboot) | sudo |
+| `--resume` | Resume after a `--pause` | sudo |
+| `--status` | Show daemon state, pause state, current lid state, and the last log lines | no |
+| `--uninstall` | Remove the daemon, script, logs, and pause marker | sudo |
+| `--version`, `-v` | Print the version | no |
+| `--help`, `-h` | Show usage | no |
+
+Examples:
+
+```bash
+/usr/local/bin/touchbar-reset-watcher.sh --status
+sudo /usr/local/bin/touchbar-reset-watcher.sh --pause
+sudo /usr/local/bin/touchbar-reset-watcher.sh --resume
+sudo /usr/local/bin/touchbar-reset-watcher.sh --once
+```
+
+`--pause` works by creating a marker file (`/usr/local/var/touchbar-reset.paused`)
+that the running daemon checks each cycle, so it takes effect within `INTERVAL`
+seconds without unloading the service.
+
 ## Checking your version
 
 ```bash
