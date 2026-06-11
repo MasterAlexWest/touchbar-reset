@@ -72,9 +72,9 @@ Usage: touchbar-reset [flag]
 With no flag it runs the watcher loop (this is how launchd starts it).
 
 Flags:
-  --once         Reset the Touch Bar now and exit.              (needs sudo)
+  --once         Reset the Touch Bar now and exit. (needs sudo)
   --pause        Stop resetting until --resume; daemon stays loaded. (needs sudo)
-  --resume       Resume after a --pause.                        (needs sudo)
+  --resume       Resume after a --pause. (needs sudo)
   --status       Show daemon state, pause state, lid state, recent log.
   --uninstall    Remove the daemon, script, logs, and pause marker. (needs sudo)
   --version, -v  Print the version.
