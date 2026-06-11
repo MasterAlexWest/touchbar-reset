@@ -7,8 +7,9 @@ set -euo pipefail
 
 LABEL="design.westerlund.touchbar-reset"
 SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
-SCRIPT_DST="/usr/local/bin/touchbar-reset-watcher.sh"
+SCRIPT_DST="/usr/local/bin/touchbar-reset.sh"
 CMD_LINK="/usr/local/bin/touchbar-reset"
+LEGACY_SCRIPT="/usr/local/bin/touchbar-reset-watcher.sh"   # pre-1.3.0 filename
 PLIST_DST="/Library/LaunchDaemons/${LABEL}.plist"
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -18,7 +19,8 @@ fi
 
 echo "Installing watcher script -> $SCRIPT_DST"
 mkdir -p /usr/local/bin
-cp "$SRC_DIR/touchbar-reset-watcher.sh" "$SCRIPT_DST"
+rm -f "$LEGACY_SCRIPT"
+cp "$SRC_DIR/touchbar-reset.sh" "$SCRIPT_DST"
 chown root:wheel "$SCRIPT_DST"
 chmod 755 "$SCRIPT_DST"
 

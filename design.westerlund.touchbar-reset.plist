@@ -7,7 +7,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/touchbar-reset-watcher.sh</string>
+        <string>/usr/local/bin/touchbar-reset.sh</string>
     </array>
 
     <key>RunAtLoad</key>

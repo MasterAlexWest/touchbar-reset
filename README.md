@@ -89,7 +89,7 @@ seconds without unloading the service.
 
 ```bash
 touchbar-reset --version                 # the version actually installed
-./touchbar-reset-watcher.sh --version    # the version in this repo
+./touchbar-reset.sh --version    # the version in this repo
 ```
 
 The installed version is also recorded in the startup line of
@@ -97,7 +97,7 @@ The installed version is also recorded in the startup line of
 
 ## Configuration
 
-Edit the values at the top of `touchbar-reset-watcher.sh`, then re-run
+Edit the values at the top of `touchbar-reset.sh`, then re-run
 `sudo bash install.sh`:
 
 | Variable | Default | Meaning |
@@ -109,7 +109,7 @@ Edit the values at the top of `touchbar-reset-watcher.sh`, then re-run
 
 | File | Role |
 |------|------|
-| `touchbar-reset-watcher.sh` | The watcher loop (installed to `/usr/local/bin`) |
+| `touchbar-reset.sh` | The watcher loop (installed to `/usr/local/bin`) |
 | `design.westerlund.touchbar-reset.plist` | LaunchDaemon definition (installed to `/Library/LaunchDaemons`) |
 | `install.sh` / `uninstall.sh` | Install / remove the daemon |
 

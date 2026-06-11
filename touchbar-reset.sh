@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# touchbar-reset-watcher.sh
+# touchbar-reset.sh
 # Restarts the Touch Bar whenever the MacBook wakes / the lid is opened.
 #
 # Two triggers, so both real-world cases are covered:
@@ -20,7 +20,7 @@
 #
 # Runs as a root LaunchDaemon. See install.sh.
 
-VERSION="1.2.0"
+VERSION="1.3.0"
 
 # --- Configuration --------------------------------------------------------
 INTERVAL=5    # seconds between checks (lid stays closed minutes-to-hours, so this is plenty)
@@ -29,7 +29,7 @@ LOG_MAX_LINES=500                              # keep the newest entries, trim t
 
 # --- Paths (absolute, so the flags work from anywhere) --------------------
 LABEL="design.westerlund.touchbar-reset"
-SCRIPT_PATH="/usr/local/bin/touchbar-reset-watcher.sh"
+SCRIPT_PATH="/usr/local/bin/touchbar-reset.sh"
 CMD_LINK="/usr/local/bin/touchbar-reset"   # short command symlink to this script
 PLIST_PATH="/Library/LaunchDaemons/${LABEL}.plist"
 LOG="/var/log/touchbar-reset.log"              # plain timestamped activity log
@@ -89,7 +89,7 @@ case "${1:-}" in
     exit 0
     ;;
   --version|-v)
-    echo "touchbar-reset-watcher $VERSION"
+    echo "touchbar-reset $VERSION"
     exit 0
     ;;
   --once)
@@ -115,9 +115,9 @@ case "${1:-}" in
     exit 0
     ;;
   --status)
-    echo "touchbar-reset-watcher $VERSION"
-    if /usr/bin/pgrep -f 'touchbar-reset-watcher\.sh$' >/dev/null 2>&1; then
-      echo "daemon:  running (pid $(/usr/bin/pgrep -f 'touchbar-reset-watcher\.sh$' | /usr/bin/tr '\n' ' '))"
+    echo "touchbar-reset $VERSION"
+    if /usr/bin/pgrep -f 'touchbar-reset(-watcher)?\.sh$' >/dev/null 2>&1; then
+      echo "daemon:  running (pid $(/usr/bin/pgrep -f 'touchbar-reset(-watcher)?\.sh$' | /usr/bin/tr '\n' ' '))"
     else
       echo "daemon:  not running"
     fi
