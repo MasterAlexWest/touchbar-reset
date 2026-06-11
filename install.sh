@@ -8,6 +8,7 @@ set -euo pipefail
 LABEL="design.westerlund.touchbar-reset"
 SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
 SCRIPT_DST="/usr/local/bin/touchbar-reset-watcher.sh"
+CMD_LINK="/usr/local/bin/touchbar-reset"
 PLIST_DST="/Library/LaunchDaemons/${LABEL}.plist"
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -20,6 +21,9 @@ mkdir -p /usr/local/bin
 cp "$SRC_DIR/touchbar-reset-watcher.sh" "$SCRIPT_DST"
 chown root:wheel "$SCRIPT_DST"
 chmod 755 "$SCRIPT_DST"
+
+echo "Installing command symlink -> $CMD_LINK"
+ln -sfh "$SCRIPT_DST" "$CMD_LINK"
 
 echo "Installing LaunchDaemon -> $PLIST_DST"
 cp "$SRC_DIR/${LABEL}.plist" "$PLIST_DST"
@@ -34,5 +38,6 @@ launchctl enable "system/${LABEL}"
 echo
 echo "Done. Installed $("$SCRIPT_DST" --version)."
 echo "The watcher is running and will start on every boot."
+echo "Control it with the 'touchbar-reset' command (try: touchbar-reset --status)."
 echo "Test it: close the lid, wait a few seconds, reopen — the Touch Bar should refresh."
 echo "Logs:    log show --predicate 'eventMessage CONTAINS \"touchbar-reset\"' --last 1h"

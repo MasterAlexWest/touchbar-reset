@@ -20,7 +20,7 @@
 #
 # Runs as a root LaunchDaemon. See install.sh.
 
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 # --- Configuration --------------------------------------------------------
 INTERVAL=5    # seconds between checks (lid stays closed minutes-to-hours, so this is plenty)
@@ -30,6 +30,7 @@ LOG_MAX_LINES=500                              # keep the newest entries, trim t
 # --- Paths (absolute, so the flags work from anywhere) --------------------
 LABEL="design.westerlund.touchbar-reset"
 SCRIPT_PATH="/usr/local/bin/touchbar-reset-watcher.sh"
+CMD_LINK="/usr/local/bin/touchbar-reset"   # short command symlink to this script
 PLIST_PATH="/Library/LaunchDaemons/${LABEL}.plist"
 LOG="/var/log/touchbar-reset.log"              # plain timestamped activity log
 ERR_LOG="/var/log/touchbar-reset.err.log"      # launchd stderr capture
@@ -57,16 +58,16 @@ reset_touchbar() {
 
 require_root() {
   if [ "$(/usr/bin/id -u)" -ne 0 ]; then
-    echo "This action needs root. Re-run: sudo $SCRIPT_PATH $1" >&2
+    echo "This action needs root. Re-run: sudo touchbar-reset $1" >&2
     exit 1
   fi
 }
 
 usage() {
   cat <<EOF
-touchbar-reset-watcher $VERSION — restart the Touch Bar on lid-open / wake
+touchbar-reset $VERSION — restart the Touch Bar on lid-open / wake
 
-Usage: touchbar-reset-watcher.sh [flag]
+Usage: touchbar-reset [flag]
 
 With no flag it runs the watcher loop (this is how launchd starts it).
 
@@ -103,7 +104,7 @@ case "${1:-}" in
     /usr/bin/touch "$PAUSE_FILE"
     log_msg "PAUSED via --pause"
     echo "Paused. The watcher will stop resetting within ${INTERVAL}s."
-    echo "Resume with: sudo $SCRIPT_PATH --resume"
+    echo "Resume with: sudo touchbar-reset --resume"
     exit 0
     ;;
   --resume)
@@ -120,7 +121,7 @@ case "${1:-}" in
     else
       echo "daemon:  not running"
     fi
-    if [ -e "$PAUSE_FILE" ]; then echo "state:   PAUSED (resume with: sudo $SCRIPT_PATH --resume)"; else echo "state:   active"; fi
+    if [ -e "$PAUSE_FILE" ]; then echo "state:   PAUSED (resume with: sudo touchbar-reset --resume)"; else echo "state:   active"; fi
     echo "lid:     $(get_clamshell)  (Yes = closed, No = open)"
     echo "--- last 5 log lines ($LOG) ---"
     /usr/bin/tail -n 5 "$LOG" 2>/dev/null || echo "(no log yet)"
@@ -129,8 +130,8 @@ case "${1:-}" in
   --uninstall)
     require_root --uninstall
     /bin/launchctl bootout "system/$LABEL" 2>/dev/null
-    /bin/rm -f "$PLIST_PATH" "$SCRIPT_PATH" "$PAUSE_FILE" "$LOG" "${LOG}.tmp" "$ERR_LOG"
-    echo "Uninstalled: daemon stopped; script, logs, and pause marker removed."
+    /bin/rm -f "$PLIST_PATH" "$SCRIPT_PATH" "$CMD_LINK" "$PAUSE_FILE" "$LOG" "${LOG}.tmp" "$ERR_LOG"
+    echo "Uninstalled: daemon stopped; script, command, logs, and pause marker removed."
     exit 0
     ;;
   "")

@@ -47,6 +47,16 @@ The watcher logs lid changes and resets to `/var/log/touchbar-reset.log`
 cat /var/log/touchbar-reset.log
 ```
 
+## The `touchbar-reset` command
+
+The installer creates a `touchbar-reset` command (a symlink in
+`/usr/local/bin`), so you can control the daemon from anywhere:
+
+```bash
+touchbar-reset --status
+sudo touchbar-reset --once
+```
+
 ## Flags
 
 With no argument the script runs the watcher loop (how `launchd` starts it).
@@ -65,10 +75,10 @@ It also accepts:
 Examples:
 
 ```bash
-/usr/local/bin/touchbar-reset-watcher.sh --status
-sudo /usr/local/bin/touchbar-reset-watcher.sh --pause
-sudo /usr/local/bin/touchbar-reset-watcher.sh --resume
-sudo /usr/local/bin/touchbar-reset-watcher.sh --once
+touchbar-reset --status
+sudo touchbar-reset --pause
+sudo touchbar-reset --resume
+sudo touchbar-reset --once
 ```
 
 `--pause` works by creating a marker file (`/usr/local/var/touchbar-reset.paused`)
@@ -78,8 +88,8 @@ seconds without unloading the service.
 ## Checking your version
 
 ```bash
-touchbar-reset-watcher.sh --version          # the version in this repo
-/usr/local/bin/touchbar-reset-watcher.sh --version   # the version actually installed
+touchbar-reset --version                 # the version actually installed
+./touchbar-reset-watcher.sh --version    # the version in this repo
 ```
 
 The installed version is also recorded in the startup line of
